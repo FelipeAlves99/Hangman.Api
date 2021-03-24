@@ -1,7 +1,5 @@
-using System.Collections.Generic;
 using System.Linq;
 using Flunt.Notifications;
-using Newtonsoft.Json;
 
 namespace Jogo_Forca.Api
 {
@@ -19,6 +17,12 @@ namespace Jogo_Forca.Api
         {
             if (!char.IsLetter(Letter))
                 AddNotification("Hangman.Letter", "A propriedade 'Letter' deve ser uma letra");
+
+            if (Word.Length < StaticValues.word.Length)
+                AddNotification("Hangman.Word", "A propriedade 'Word' não possui o mesmo tamanho do começo do jogo");
+
+            if(!Word.All(char.IsLetter) && !Word.All(c => c.Equals('_')))
+                AddNotification("Hangman.Word", "A propriedade 'Word' possui caracteres especiais ou números");
         }
 
         public string Word { get; private set; }
