@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 
@@ -48,11 +49,16 @@ namespace Jogo_Forca.Api.Controllers
         {
             try
             {
+                hangman.Validate();
+
+                if (hangman.Invalid)
+                    return BadRequest(hangman.Notifications.FirstOrDefault());
+
                 hangman.CheckGameStatus();
 
                 if (hangman.Status == Hangman.GameStatus.Hold)
                     hangman.TestLetter();
-                    
+
                 hangman.CheckGameStatus();
 
                 return Ok(hangman);

@@ -1,33 +1,24 @@
 using System.Collections.Generic;
 using System.Linq;
+using Flunt.Notifications;
+using Newtonsoft.Json;
 
 namespace Jogo_Forca.Api
 {
-    public class Hangman
+    public class Hangman : Notifiable
     {
         public Hangman(string word, char letter = '\0')
         {
             Word = word;
-            Try = StaticValues.tries.HasValue? StaticValues.tries.Value : 7;
+            Try = StaticValues.tries.HasValue ? StaticValues.tries.Value : 7;
             Letter = letter;
             Status = GameStatus.Hold;
-            Validate();
         }
 
-        private void Validate()
+        public void Validate()
         {
-            List<string> addError = new List<string>();
-
-            if (Word.Length != StaticValues.word.Length)
-                addError.Add("Palavra incompativel com o começo do jogo, sugiro reiniciar a partida");
-
-            if(string.IsNullOrEmpty(Word))
-                addError.Add("Faltando palavra do jogo");
-
-            /*TODO: 
-             - add number checking in word
-             - add letter checking if is not a number or special char
-            */
+            if (!char.IsLetter(Letter))
+                AddNotification("Hangman.Letter", "A propriedade 'Letter' deve ser uma letra");
         }
 
         public string Word { get; private set; }
@@ -40,16 +31,16 @@ namespace Jogo_Forca.Api
 
         public void TestLetter()
         {
-            string newWord = StaticValues.newWord != ""? StaticValues.newWord : "";
+            string newWord = StaticValues.newWord != "" ? StaticValues.newWord : "";
 
             if (StaticValues.word.Contains(Letter))
-            {                
+            {
                 for (int i = 0; i < StaticValues.word.Length; i++)
-                {                                    
-                    if(StaticValues.word[i] == Letter)
+                {
+                    if (StaticValues.word[i] == Letter)
                         newWord += Letter;
 
-                    else if(Word[i] != '_')
+                    else if (Word[i] != '_')
                         newWord += StaticValues.word[i];
 
                     else
