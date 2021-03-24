@@ -52,7 +52,7 @@ namespace Jogo_Forca.Api.Controllers
                 hangman.Validate();
 
                 if (hangman.Invalid)
-                    return BadRequest(hangman.Notifications.FirstOrDefault());
+                    return BadRequest(hangman);
 
                 hangman.CheckGameStatus();
 
