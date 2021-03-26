@@ -41,7 +41,7 @@ namespace Jogo_Forca.Api
 
             app.UseRouting();
 
-            app.UseCors();
+            app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
             app.UseAuthorization();
 
