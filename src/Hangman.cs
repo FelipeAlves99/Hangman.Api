@@ -5,9 +5,9 @@ namespace Jogo_Forca.Api
 {
     public class Hangman : Notifiable
     {
-        public Hangman(string word, char letter = '\0')
+        public Hangman(char letter = '\0')
         {
-            Word = word;
+            Word = StaticValues.word;
             Try = StaticValues.tries.HasValue ? StaticValues.tries.Value : 7;
             Letter = letter;
             Status = GameStatus.Hold;
@@ -17,12 +17,6 @@ namespace Jogo_Forca.Api
         {
             if (!char.IsLetter(Letter))
                 AddNotification("Hangman.Letter", "A propriedade 'Letter' deve ser uma letra");
-
-            if (Word.Length < StaticValues.word.Length)
-                AddNotification("Hangman.Word", "A propriedade 'Word' não possui o mesmo tamanho do começo do jogo");
-
-            if(!Word.All(char.IsLetter) && !Word.All(c => c.Equals('_')))
-                AddNotification("Hangman.Word", "A propriedade 'Word' possui caracteres especiais ou números");
         }
 
         public string Word { get; private set; }
@@ -35,7 +29,7 @@ namespace Jogo_Forca.Api
 
         public void TestLetter()
         {
-            string newWord = StaticValues.newWord != "" ? StaticValues.newWord : "";
+            string newWord = "";
 
             if (StaticValues.word.Contains(Letter))
             {
@@ -44,7 +38,7 @@ namespace Jogo_Forca.Api
                     if (StaticValues.word[i] == Letter)
                         newWord += Letter;
 
-                    else if (Word[i] != '_')
+                    else if (StaticValues.missingWord[i] != '_')
                         newWord += StaticValues.word[i];
 
                     else
@@ -52,6 +46,7 @@ namespace Jogo_Forca.Api
                 }
 
                 Word = newWord;
+                StaticValues.missingWord = newWord;
             }
             else
             {
@@ -67,7 +62,7 @@ namespace Jogo_Forca.Api
                 Status = GameStatus.Lose;
                 Word = StaticValues.word;
             }
-            else if (!Word.Contains("_"))
+            else if (!StaticValues.missingWord.Contains("_"))
                 Status = GameStatus.Won;
             else
                 Status = GameStatus.Hold;

@@ -30,11 +30,12 @@ namespace Jogo_Forca.Api.Controllers
                 var word = words[random.Next(0, words.Length)];
 
                 StaticValues.word = word;
-                StaticValues.newWord = "";
                 StaticValues.tries = 7;
 
-                Hangman hangman = new Hangman(word);
+                Hangman hangman = new Hangman();
                 hangman.HideWord();
+
+                StaticValues.missingWord = hangman.Word;
 
                 return Ok(hangman);
             }
