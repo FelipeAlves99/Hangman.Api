@@ -19,6 +19,5 @@ This API have swagger for documentation and you can access it through here [Swag
 /test is to test the letter of the word. Body example:
 
     {
-    	"Word":  "_______",
     	"Letter":  "a",
     } 

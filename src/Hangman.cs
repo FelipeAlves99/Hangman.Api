@@ -50,6 +50,10 @@ namespace Jogo_Forca.Api
             }
             else
             {
+                if(string.IsNullOrWhiteSpace(StaticValues.missingWord))
+                    HideWord();
+                else
+                    Word = StaticValues.missingWord;
                 Try--;
                 StaticValues.tries = Try;
             }
