@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authentication.Certificate;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -19,6 +20,9 @@ namespace Jogo_Forca.Api
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddAuthentication(
+                    CertificateAuthenticationDefaults.AuthenticationScheme)
+                    .AddCertificate();
             services.AddCors();
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -36,6 +40,8 @@ namespace Jogo_Forca.Api
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Jogo_Forca.Api v1"));
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
