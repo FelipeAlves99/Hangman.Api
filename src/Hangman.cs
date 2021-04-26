@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Flunt.Notifications;
 
@@ -11,6 +12,7 @@ namespace Jogo_Forca.Api
             Try = StaticValues.tries.HasValue ? StaticValues.tries.Value : 7;
             Letter = letter;
             Status = GameStatus.Hold;
+            WrongLetters = StaticValues.wrongLetter.Count > 0? StaticValues.wrongLetter : new List<char>();
         }
 
         public void Validate()
@@ -23,6 +25,7 @@ namespace Jogo_Forca.Api
         public int Try { get; private set; }
         public char Letter { get; private set; }
         public GameStatus Status { get; private set; }
+        public List<char> WrongLetters { get; private set; }
 
         public void HideWord()
             => Word = new string(Word.Select(c => c = '_').ToArray());
@@ -50,6 +53,9 @@ namespace Jogo_Forca.Api
             }
             else
             {
+                StaticValues.wrongLetter.Add(Letter);
+                WrongLetters = StaticValues.wrongLetter;
+
                 if(string.IsNullOrWhiteSpace(StaticValues.missingWord))
                     HideWord();
                 else
