@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -31,6 +32,7 @@ namespace Jogo_Forca.Api.Controllers
 
                 StaticValues.word = word;
                 StaticValues.tries = 7;
+                StaticValues.wrongLetter = new List<char>();
 
                 Hangman hangman = new Hangman();
                 hangman.HideWord();
