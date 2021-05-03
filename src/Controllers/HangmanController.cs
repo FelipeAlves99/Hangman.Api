@@ -31,7 +31,7 @@ namespace Jogo_Forca.Api.Controllers
                 var word = words[random.Next(0, words.Length)];
 
                 StaticValues.word = word;
-                StaticValues.tries = 7;
+                StaticValues.tries = 6;
                 StaticValues.wrongLetter = new List<char>();
 
                 Hangman hangman = new Hangman();
